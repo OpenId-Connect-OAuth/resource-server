@@ -24,7 +24,7 @@ class UserControllerTests {
 	void testUserController() throws Exception {
 		this.mockMvc.perform(get("/users/status/check"))
 				.andExpect(status().isOk())
-				.andExpect(content().string("working...."));
+				.andExpect(content().string("working..."));
 	}
 
 }
