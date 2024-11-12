@@ -3,6 +3,8 @@ package com.vksdeveloperblog.ws.api.ResourceServer.Controller;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +19,10 @@ public class UsersController {
         return "working....";
     }
 
-    @PreAuthorize("hasRole('developer')")
+    @PreAuthorize("hasAuthority('ROLE_user') or #id == #jwt.subject") 
     // @Secured("ROLE_developer")
     @DeleteMapping(path = "/{id}")
-    public String deleteUser(@PathVariable String id) {
-        return "Deleted User with id " + id; 
+    public String deleteUser(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
+        return "Deleted User with id " + id + " and JWT subject " + jwt.getSubject(); 
     }
 }
