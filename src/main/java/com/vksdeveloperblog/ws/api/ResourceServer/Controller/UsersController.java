@@ -1,5 +1,7 @@
 package com.vksdeveloperblog.ws.api.ResourceServer.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/users")
 public class UsersController {
+    @Autowired
+    Environment env;
+
     @GetMapping("/status/check")
     public String status(){
-        return "working....";
+        return "working.... on port" + env.getProperty("local.server.port");
     }
 
     @PreAuthorize("hasAuthority('ROLE_user') or #id == #jwt.subject") 
